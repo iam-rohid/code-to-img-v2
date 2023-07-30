@@ -1,4 +1,3 @@
-import { useEditorStore } from "./store/editor-store";
 import CodeMirror, { BasicSetupOptions } from "@uiw/react-codemirror";
 import { useEffect, useMemo, useState } from "react";
 import { Extension } from "@codemirror/state";
@@ -8,11 +7,20 @@ import { EditorView } from "@codemirror/view";
 
 import { createTheme } from "@uiw/codemirror-themes";
 import { themes } from "./themes";
+import { useAtom, useAtomValue } from "jotai";
+import { codeAtom, codeBlockThemeAtom, languageAtom } from "./atoms";
 
 const baseExtensions = [EditorView.lineWrapping];
 
-export default function CodeEditor() {
-  const { code, setCode, language, theme: themeId } = useEditorStore();
+export default function CodeEditor({
+  onEditorCreated,
+}: {
+  onEditorCreated?: (view: EditorView) => void;
+}) {
+  const themeKey = useAtomValue(codeBlockThemeAtom);
+  const language = useAtomValue(languageAtom);
+  const [code, setCode] = useAtom(codeAtom);
+
   const [extensions, setExtensions] = useState<Extension[]>();
   const [basicSetup] = useState<BasicSetupOptions>({
     foldGutter: false,
@@ -31,15 +39,19 @@ export default function CodeEditor() {
   });
 
   const theme = useMemo(() => {
-    const options = themes[themeId]?.options;
+    const options = themes[themeKey]?.options;
     if (options) {
       return createTheme(options);
     }
     return undefined;
-  }, [themeId]);
+  }, [themeKey]);
 
   useEffect(() => {
-    setExtensions([baseExtensions, color, langs[language]()]);
+    setExtensions([
+      baseExtensions,
+      color,
+      langs[language as keyof typeof langs](),
+    ]);
   }, [language]);
 
   return (
@@ -49,6 +61,7 @@ export default function CodeEditor() {
       extensions={extensions}
       theme={theme}
       basicSetup={basicSetup}
+      onCreateEditor={onEditorCreated}
     />
   );
 }

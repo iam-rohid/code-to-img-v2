@@ -9,21 +9,23 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@codemirror/lang-javascript": "^6.1.9",
     "@codemirror/state": "^6.2.1",
     "@codemirror/view": "^6.15.3",
     "@lezer/highlight": "^1.1.6",
     "@uiw/codemirror-extensions-color": "^4.21.9",
     "@uiw/codemirror-extensions-langs": "^4.21.9",
-    "@uiw/codemirror-theme-okaidia": "^4.21.9",
     "@uiw/codemirror-themes": "^4.21.9",
     "@uiw/react-codemirror": "^4.21.9",
+    "clsx": "^2.0.0",
+    "jotai": "^2.2.2",
+    "jotai-optics": "^0.3.0",
     "next": "13.4.12",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "zustand": "^4.3.9"
+    "tailwind-merge": "^1.14.0"
   },
   "devDependencies": {
+    "@swc-jotai/react-refresh": "^0.0.8",
     "@types/node": "20.4.5",
     "@types/react": "18.2.17",
     "@types/react-dom": "18.2.7",

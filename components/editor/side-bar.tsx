@@ -1,48 +1,34 @@
-import { useEditorStore } from "./store/editor-store";
-import { Languagekey, languageOptions } from "./store/language-slice";
+import { useAtom } from "jotai";
 import { themes } from "./themes";
+import {
+  codeBlockBorderRadiusAtom,
+  codeBlockPaddingAtom,
+  languageAtom,
+  codeBlockThemeAtom,
+  showTitleBarAtom,
+  canvasPaddingXAtom,
+  canvasPaddingYAtom,
+} from "./atoms";
+import { langs } from "@uiw/codemirror-extensions-langs";
 
 export default function SideBar() {
-  const {
-    horizontalPadding,
-    verticalPadding,
-    setHorizontalPadding,
-    setVerticalPadding,
-    borderRadius,
-    setBorderRadius,
-    width,
-    setWidth,
-    language,
-    setLanguage,
-    theme,
-    setTheme,
-    innerPadding,
-    setInnerPadding,
-    showTitleBar,
-    setShowTitleBar,
-  } = useEditorStore();
+  const [canvasPaddingX, setCanvasPaddingX] = useAtom(canvasPaddingXAtom);
+  const [canvasPaddingY, setCanvasPaddingY] = useAtom(canvasPaddingYAtom);
+  const [codeBlockPadding, setCodeBlockPadding] = useAtom(codeBlockPaddingAtom);
+  const [borderRadius, setBorderRadius] = useAtom(codeBlockBorderRadiusAtom);
+  const [language, setLanguage] = useAtom(languageAtom);
+  const [theme, setTheme] = useAtom(codeBlockThemeAtom);
+  const [showTitleBar, setShowTitleBar] = useAtom(showTitleBarAtom);
 
   return (
     <div className="w-64 bg-white dark:bg-zinc-900 border-r border-slate-200 dark:border-zinc-800 flex-shrink-0">
-      <fieldset className="flex items-center justify-between">
-        <label htmlFor="width">Width</label>
-        <input
-          type="number"
-          value={width}
-          min={512}
-          max={1048}
-          onChange={(e) => setWidth(Number(e.currentTarget.value))}
-          className="bg-transparent"
-        />
-      </fieldset>
-
       <fieldset className="flex items-center justify-between">
         <label htmlFor="horizontal-padding">Padding X</label>
         <input
           type="range"
           id="horizontal-padding"
-          value={horizontalPadding}
-          onChange={(e) => setHorizontalPadding(Number(e.currentTarget.value))}
+          value={canvasPaddingX}
+          onChange={(e) => setCanvasPaddingX(Number(e.currentTarget.value))}
           min={32}
           max={200}
         />
@@ -52,8 +38,8 @@ export default function SideBar() {
         <input
           type="range"
           id="vertical-padding"
-          value={verticalPadding}
-          onChange={(e) => setVerticalPadding(Number(e.currentTarget.value))}
+          value={canvasPaddingY}
+          onChange={(e) => setCanvasPaddingY(Number(e.currentTarget.value))}
           min={32}
           max={200}
         />
@@ -63,8 +49,8 @@ export default function SideBar() {
         <input
           type="range"
           id="vertical-padding"
-          value={innerPadding}
-          onChange={(e) => setInnerPadding(Number(e.currentTarget.value))}
+          value={codeBlockPadding}
+          onChange={(e) => setCodeBlockPadding(Number(e.currentTarget.value))}
           min={0}
           max={32}
         />
@@ -85,14 +71,16 @@ export default function SideBar() {
         <select
           value={language}
           id="language"
-          onChange={(e) => setLanguage(e.currentTarget.value as Languagekey)}
+          onChange={(e) => setLanguage(e.currentTarget.value)}
           className="bg-transparent"
         >
-          {languageOptions.map((option) => (
-            <option key={option} value={option}>
-              {option}
-            </option>
-          ))}
+          {Object.keys(langs)
+            .sort()
+            .map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
         </select>
       </fieldset>
       <fieldset className="flex items-center justify-between">
@@ -100,12 +88,14 @@ export default function SideBar() {
         <select
           value={theme}
           id="theme"
-          onChange={(e) => setTheme(e.currentTarget.value)}
+          onChange={(e) =>
+            setTheme(e.currentTarget.value as keyof typeof themes)
+          }
           className="bg-transparent"
         >
           {Object.keys(themes).map((option) => (
             <option key={option} value={option}>
-              {themes[option]?.name || "Custom"}
+              {themes[option as keyof typeof themes]?.name || "Custom"}
             </option>
           ))}
         </select>
