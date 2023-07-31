@@ -8,6 +8,7 @@ import {
   showTitleBarAtom,
   canvasPaddingXAtom,
   canvasPaddingYAtom,
+  showTraficLightsAtom,
 } from "./atoms";
 import { langs } from "@uiw/codemirror-extensions-langs";
 
@@ -19,6 +20,7 @@ export default function SideBar() {
   const [language, setLanguage] = useAtom(languageAtom);
   const [theme, setTheme] = useAtom(codeBlockThemeAtom);
   const [showTitleBar, setShowTitleBar] = useAtom(showTitleBarAtom);
+  const [showTraficLights, setShowTraficLights] = useAtom(showTraficLightsAtom);
 
   return (
     <div className="w-64 bg-white dark:bg-zinc-900 border-r border-slate-200 dark:border-zinc-800 flex-shrink-0">
@@ -93,11 +95,13 @@ export default function SideBar() {
           }
           className="bg-transparent"
         >
-          {Object.keys(themes).map((option) => (
-            <option key={option} value={option}>
-              {themes[option as keyof typeof themes]?.name || "Custom"}
-            </option>
-          ))}
+          {Object.keys(themes)
+            .sort()
+            .map((option) => (
+              <option key={option} value={option}>
+                {themes[option as keyof typeof themes]?.name || "Custom"}
+              </option>
+            ))}
         </select>
       </fieldset>
       <fieldset className="flex items-center justify-between">
@@ -108,6 +112,17 @@ export default function SideBar() {
           checked={showTitleBar}
           onChange={(e) =>
             setShowTitleBar(e.currentTarget.checked ? true : false)
+          }
+        />
+      </fieldset>
+      <fieldset className="flex items-center justify-between">
+        <label htmlFor="show-trafic-lights">Show Trafic Lights</label>
+        <input
+          type="checkbox"
+          id="show-trafic-lights"
+          checked={showTraficLights}
+          onChange={(e) =>
+            setShowTraficLights(e.currentTarget.checked ? true : false)
           }
         />
       </fieldset>

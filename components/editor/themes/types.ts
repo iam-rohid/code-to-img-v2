@@ -1,11 +1,10 @@
 import { CreateThemeOptions } from "@uiw/codemirror-themes";
 
 export type EditorTheme = {
-  id: string;
   name: string;
   options: CreateThemeOptions;
   window: {
-    background: string;
+    background?: string;
     backgroundOpacity?: number;
     borderColor?: string;
     titleBarBackground?: string;

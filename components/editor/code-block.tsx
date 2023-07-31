@@ -162,14 +162,14 @@ export default function CodeBlock() {
         <div className="flex absolute -bottom-8 items-center justify-center left-0 right-0 z-10">
           <div className="absolute -z-10 h-px left-0 right-0 top-1/2 -translate-y-1/2 bg-slate-200 dark:bg-zinc-800" />
           <p className="absolute truncate top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 bg-white dark:bg-zinc-950 px-2 text-sm text-slate-600 dark:text-zinc-400">
-            {editor.canvas.width}
+            {editor.canvas.width} px
           </p>
         </div>
 
         <div className="flex absolute -right-8 items-center justify-center top-0 bottom-0 z-10">
           <div className="absolute -z-10 w-px top-0 bottom-0 left-1/2 -translate-x-1/2 bg-slate-200 dark:bg-zinc-800" />
           <p className="bg-white truncate rotate-90 absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 dark:bg-zinc-950 px-2 text-sm text-slate-600 dark:text-zinc-400">
-            {height}
+            {height} px
           </p>
         </div>
       </div>

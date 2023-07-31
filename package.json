@@ -15,6 +15,7 @@
     "@uiw/codemirror-extensions-color": "^4.21.9",
     "@uiw/codemirror-extensions-langs": "^4.21.9",
     "@uiw/codemirror-themes": "^4.21.9",
+    "@uiw/codemirror-themes-all": "^4.21.9",
     "@uiw/react-codemirror": "^4.21.9",
     "clsx": "^2.0.0",
     "jotai": "^2.2.2",

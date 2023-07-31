@@ -13,3 +13,8 @@
 .cm-editor {
   font-size: 14px;
 }
+
+.cm-editor .cm-scroller {
+  font-family: Menlo, Monaco, Consolas, "Andale Mono", "Ubuntu Mono",
+    "Courier New", monospace;
+}

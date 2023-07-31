@@ -35,28 +35,25 @@ export type CanvasBackground =
   | GradientBackground
   | ImageBackground;
 
-export type CanvasState = {
-  width: number;
-  paddingX: number;
-  paddingY: number;
-  background: CanvasBackground;
-};
-
-export type CodeBlockState = {
-  padding: number;
-  language: string;
-  code: string;
-  theme: keyof typeof themes;
-  borderRadius: number;
-  titleBar: {
-    show: boolean;
-    title: string;
-    showTraficLights: boolean;
-  };
-};
 export type EditorState = {
-  canvas: CanvasState;
-  codeBlock: CodeBlockState;
+  canvas: {
+    width: number;
+    paddingX: number;
+    paddingY: number;
+    background: CanvasBackground;
+  };
+  codeBlock: {
+    padding: number;
+    language: string;
+    code: string;
+    theme: keyof typeof themes;
+    borderRadius: number;
+    titleBar: {
+      show: boolean;
+      title: string;
+      showTraficLights: boolean;
+    };
+  };
 };
 
 export const editorAtom = atom<EditorState>({
@@ -74,7 +71,7 @@ export const editorAtom = atom<EditorState>({
     language: "tsx",
     borderRadius: 12,
     code: exampleCode,
-    theme: Object.keys(themes)[0] as keyof typeof themes,
+    theme: "aura",
     titleBar: {
       show: true,
       title: "Untitled",
@@ -113,6 +110,9 @@ export const titleBarTitleAtom = focusAtom(codeBlockTitleBarAtom, (optic) =>
 );
 export const showTitleBarAtom = focusAtom(codeBlockTitleBarAtom, (optic) =>
   optic.prop("show")
+);
+export const showTraficLightsAtom = focusAtom(codeBlockTitleBarAtom, (optic) =>
+  optic.prop("showTraficLights")
 );
 export const codeBlockThemeAtom = focusAtom(codeBlockAtom, (optic) =>
   optic.prop("theme")
