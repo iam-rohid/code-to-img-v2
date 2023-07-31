@@ -10,7 +10,7 @@ import { themes } from "./themes";
 import { useAtom, useAtomValue } from "jotai";
 import {
   codeAtom,
-  codeBlockThemeAtom,
+  themeAtom,
   languageAtom,
   showLineNumbersAtom,
 } from "./atoms";
@@ -22,7 +22,7 @@ export default function CodeEditor({
 }: {
   onEditorCreated?: (view: EditorView) => void;
 }) {
-  const themeKey = useAtomValue(codeBlockThemeAtom);
+  const themeKey = useAtomValue(themeAtom);
   const language = useAtomValue(languageAtom);
   const showLineNumbers = useAtomValue(showLineNumbersAtom);
   const [code, setCode] = useAtom(codeAtom);
@@ -50,7 +50,7 @@ export default function CodeEditor({
   );
 
   const theme = useMemo(() => {
-    const options = themes[themeKey]?.options;
+    const options = themes[themeKey as keyof typeof themes]?.options;
     if (options) {
       return createTheme({
         ...options,
