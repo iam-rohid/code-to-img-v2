@@ -94,7 +94,7 @@ export default function CodeBlock() {
       <div className="relative w-fit h-fit">
         <div
           ref={canvasRef}
-          className="bg-gradient-to-br from-[#E28A9A] to-[#4858D0]"
+          className="bg-gradient-to-br from-[#FE6062] to-[#5228A3]"
           style={{
             width: `${editor.canvas.width}px`,
           }}

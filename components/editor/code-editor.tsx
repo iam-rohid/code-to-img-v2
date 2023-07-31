@@ -8,7 +8,12 @@ import { EditorView } from "@codemirror/view";
 import { createTheme } from "@uiw/codemirror-themes";
 import { themes } from "./themes";
 import { useAtom, useAtomValue } from "jotai";
-import { codeAtom, codeBlockThemeAtom, languageAtom } from "./atoms";
+import {
+  codeAtom,
+  codeBlockThemeAtom,
+  languageAtom,
+  showLineNumbersAtom,
+} from "./atoms";
 
 const baseExtensions = [EditorView.lineWrapping];
 
@@ -19,29 +24,43 @@ export default function CodeEditor({
 }) {
   const themeKey = useAtomValue(codeBlockThemeAtom);
   const language = useAtomValue(languageAtom);
+  const showLineNumbers = useAtomValue(showLineNumbersAtom);
   const [code, setCode] = useAtom(codeAtom);
 
   const [extensions, setExtensions] = useState<Extension[]>();
-  const [basicSetup] = useState<BasicSetupOptions>({
-    foldGutter: false,
-    foldKeymap: false,
-    searchKeymap: false,
-    highlightActiveLine: false,
-    highlightActiveLineGutter: false,
-    drawSelection: false,
-    rectangularSelection: false,
-    highlightSelectionMatches: false,
-    allowMultipleSelections: false,
-    bracketMatching: false,
-    highlightSpecialChars: false,
-    syntaxHighlighting: false,
-    autocompletion: false,
-  });
+  const basicSetup = useMemo(
+    () =>
+      ({
+        foldGutter: false,
+        foldKeymap: false,
+        searchKeymap: false,
+        highlightActiveLine: false,
+        highlightActiveLineGutter: false,
+        drawSelection: false,
+        rectangularSelection: false,
+        highlightSelectionMatches: false,
+        allowMultipleSelections: false,
+        bracketMatching: false,
+        highlightSpecialChars: false,
+        syntaxHighlighting: false,
+        autocompletion: false,
+        lineNumbers: showLineNumbers,
+      } satisfies BasicSetupOptions),
+    [showLineNumbers]
+  );
 
   const theme = useMemo(() => {
     const options = themes[themeKey]?.options;
     if (options) {
-      return createTheme(options);
+      return createTheme({
+        ...options,
+        settings: {
+          ...options.settings,
+          background: "transparent",
+          gutterBackground: "transparent",
+          gutterBorder: "transparent",
+        },
+      });
     }
     return undefined;
   }, [themeKey]);

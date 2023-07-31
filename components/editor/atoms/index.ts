@@ -48,6 +48,7 @@ export type EditorState = {
     code: string;
     theme: keyof typeof themes;
     borderRadius: number;
+    showLineNumbers: boolean;
     titleBar: {
       show: boolean;
       title: string;
@@ -72,6 +73,7 @@ export const editorAtom = atom<EditorState>({
     borderRadius: 12,
     code: exampleCode,
     theme: "aura",
+    showLineNumbers: true,
     titleBar: {
       show: true,
       title: "Untitled",
@@ -104,6 +106,9 @@ export const codeBlockBorderRadiusAtom = focusAtom(codeBlockAtom, (optic) =>
 );
 export const codeBlockTitleBarAtom = focusAtom(codeBlockAtom, (optic) =>
   optic.prop("titleBar")
+);
+export const showLineNumbersAtom = focusAtom(codeBlockAtom, (optic) =>
+  optic.prop("showLineNumbers")
 );
 export const titleBarTitleAtom = focusAtom(codeBlockTitleBarAtom, (optic) =>
   optic.prop("title")
